@@ -1,0 +1,15 @@
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.GeneratedMSBuildEditorConfig.editorconfig
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.AssemblyInfoInputs.cache
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.AssemblyInfo.cs
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.csproj.CoreCompileInputs.cache
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.sourcelink.json
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\bin\Debug\net8.0\Codecool.MarsExploration.exe
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\bin\Debug\net8.0\Codecool.MarsExploration.deps.json
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\bin\Debug\net8.0\Codecool.MarsExploration.runtimeconfig.json
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\bin\Debug\net8.0\Codecool.MarsExploration.dll
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\bin\Debug\net8.0\Codecool.MarsExploration.pdb
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.dll
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\refint\Codecool.MarsExploration.dll
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.pdb
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\Codecool.MarsExploration.genruntimeconfig.cache
+D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\obj\Debug\net8.0\ref\Codecool.MarsExploration.dll
