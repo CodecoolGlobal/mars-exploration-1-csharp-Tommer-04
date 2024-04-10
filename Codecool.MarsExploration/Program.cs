@@ -2,6 +2,7 @@
 using Codecool.MarsExploration.Calculators.Service;
 using Codecool.MarsExploration.Configuration.Model;
 using Codecool.MarsExploration.Configuration.Service;
+using Codecool.MarsExploration.MapElements.Model;
 using Codecool.MarsExploration.MapElements.Service.Builder;
 using Codecool.MarsExploration.MapElements.Service.Generator;
 using Codecool.MarsExploration.MapElements.Service.Placer;
@@ -17,6 +18,12 @@ internal class Program
         Console.WriteLine("Mars Exploration Sprint 1");
         var mapConfig = GetConfiguration();
 
+        string[,] twodimArray =
+        {
+            {"asd","asd2" },
+            {"secondasd","secondasd2" }
+        };
+        Map map = new Map(twodimArray);
         IDimensionCalculator dimensionCalculator = null;
         ICoordinateCalculator coordinateCalculator = new CordinateCalculator();
         Coordinate coordinate = new Coordinate(2,3);
@@ -39,6 +46,8 @@ internal class Program
         {
             Console.WriteLine(cord);
         }
+
+        Console.WriteLine(map);
 
     }
 

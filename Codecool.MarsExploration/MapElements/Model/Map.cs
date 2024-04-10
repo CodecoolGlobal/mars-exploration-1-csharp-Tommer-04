@@ -6,7 +6,7 @@ public record Map(string?[,] Representation, bool SuccessfullyGenerated = false)
 {
     protected static string CreateStringRepresentation(string?[,] arr)
     {
-        return "";
+        return string.Join("", arr.Cast<string>());
     }
 
     public override string ToString()
