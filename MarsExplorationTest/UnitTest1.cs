@@ -1,6 +1,6 @@
 using Codecool.MarsExploration.Calculators.Model;
 using Codecool.MarsExploration.Calculators.Service;
-using Moq;
+using Codecool.MarsExploration.MapElements.Model;
 
 namespace MarsExplorationTest
 
@@ -117,7 +117,24 @@ namespace MarsExplorationTest
                 }
                 index++;
             }
+        }
+        [Test]
+        public void ToStringRepresentationTest()
+        {
+            //Arrange
+            string?[,] twoDimArray = new string?[2, 2];
+            twoDimArray[0, 0] = "A";
+            twoDimArray[0, 1] = "B";
+            twoDimArray[1, 0] = "";
+            twoDimArray[1, 1] = "C";
 
+            Map map = new Map(twoDimArray);
+
+            //Act
+            string result = map.ToString();
+
+            //Assert
+            Assert.AreEqual("ABC",  result);
         }
     }
 }

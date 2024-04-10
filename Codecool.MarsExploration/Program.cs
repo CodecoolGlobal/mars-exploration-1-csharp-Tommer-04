@@ -7,6 +7,7 @@ using Codecool.MarsExploration.MapElements.Service.Builder;
 using Codecool.MarsExploration.MapElements.Service.Generator;
 using Codecool.MarsExploration.MapElements.Service.Placer;
 using Codecool.MarsExploration.Output.Service;
+using System.Formats.Tar;
 
 internal class Program
 {
@@ -18,16 +19,11 @@ internal class Program
         Console.WriteLine("Mars Exploration Sprint 1");
         var mapConfig = GetConfiguration();
 
-        string[,] twodimArray =
-        {
-            {"asd","asd2" },
-            {"secondasd","secondasd2" }
-        };
-        Map map = new Map(twodimArray);
-        IDimensionCalculator dimensionCalculator = null;
+        Map map = null;
+        IDimensionCalculator dimensionCalculator = new DimensionCalculator();
         ICoordinateCalculator coordinateCalculator = new CordinateCalculator();
         Coordinate coordinate = new Coordinate(2,3);
-        IMapElementBuilder mapElementFactory = null;
+        IMapElementBuilder mapElementBuilder = new MapElementBuilder(dimensionCalculator, coordinateCalculator);
         IMapElementsGenerator mapElementsGenerator = null;
 
         IMapConfigurationValidator mapConfigValidator = null;
@@ -39,16 +35,7 @@ internal class Program
 
         Console.WriteLine("Mars maps successfully generated.");
         Console.ReadKey();
-
-        IEnumerable<Coordinate> coordinates = coordinateCalculator.GetAdjacentCoordinates(coordinate, 5);
-
-        foreach(Coordinate cord in coordinates)
-        {
-            Console.WriteLine(cord);
-        }
-
-        Console.WriteLine(map);
-
+        
     }
 
     private static void CreateAndWriteMaps(int count, IMapGenerator mapGenerator, MapConfiguration mapConfig)
