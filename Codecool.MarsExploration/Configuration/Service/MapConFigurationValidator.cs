@@ -66,7 +66,7 @@ namespace Codecool.MarsExploration.Configuration.Service
             }
 
             
-            int totalElementsToGenerate = (int)(configuration.MapSize * configuration.ElementToSpaceRatio);
+            int totalElementsToGenerate = (int)(configuration.MapSize * configuration.MapSize * configuration.ElementToSpaceRatio);
 
             int totalElementCounts = configuration.MapElementConfigurations.Sum(ec => ec.ElementsToDimensions.Sum(etd => etd.ElementCount));
 

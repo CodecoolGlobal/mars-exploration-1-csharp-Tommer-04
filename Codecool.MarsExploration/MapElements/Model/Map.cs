@@ -6,7 +6,13 @@ public record Map(string?[,] Representation, bool SuccessfullyGenerated = false)
 {
     protected static string CreateStringRepresentation(string?[,] arr)
     {
-        return string.Join("", arr.Cast<string>());
+        if (arr == null)
+        {
+            return "InvalidMap";
+        } else
+        {
+            return string.Join("", arr.Cast<string>()) ?? "Invalid map";
+        }
     }
 
     public override string ToString()

@@ -10,7 +10,7 @@ namespace Codecool.MarsExploration.Calculators.Service
     {
         public int CalculateDimension(int size, int dimensionGrowth)
         {
-            return (int)Math.Sqrt(size) + 1 + dimensionGrowth;
+            return (int)Math.Ceiling(Math.Sqrt(size)) + dimensionGrowth;
         }
     }
 }

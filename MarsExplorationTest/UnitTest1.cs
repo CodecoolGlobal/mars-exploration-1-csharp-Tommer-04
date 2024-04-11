@@ -187,7 +187,7 @@ namespace MarsExplorationTest
             // Arrange
             var configuration = new MapConfiguration(
                 MapSize: 1000,
-                ElementToSpaceRatio: 1.5,
+                ElementToSpaceRatio: 0.8,
                 MapElementConfigurations: new[]
                 {
                     new MapElementConfiguration("#", "mountain", new[] { new ElementToSize(2, 20), new ElementToSize(1, 30) }, 3)
