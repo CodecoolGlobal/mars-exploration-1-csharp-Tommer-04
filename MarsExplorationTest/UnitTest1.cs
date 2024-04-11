@@ -1,6 +1,9 @@
 using Codecool.MarsExploration.Calculators.Model;
 using Codecool.MarsExploration.Calculators.Service;
+using Codecool.MarsExploration.Configuration.Model;
+using Codecool.MarsExploration.Configuration.Service;
 using Codecool.MarsExploration.MapElements.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace MarsExplorationTest
 
@@ -8,11 +11,14 @@ namespace MarsExplorationTest
     [TestFixture]
     public class MarsExplorationTest
     {
-        ICoordinateCalculator coordinateCalculator; 
+        ICoordinateCalculator coordinateCalculator;
+        private MapConFigurationValidator validator;
+
         [SetUp]
         public void Setup()
         {
             coordinateCalculator = new CordinateCalculator();
+            validator = new MapConFigurationValidator();
         }
         [Test]
         public void AllDirections()
@@ -135,6 +141,63 @@ namespace MarsExplorationTest
 
             //Assert
             Assert.AreEqual("ABC",  result);
+        }
+        [Test]
+        public void TrueValidation()
+        {
+            // Arrange
+            var configuration = new MapConfiguration(
+                MapSize: 1000,
+                ElementToSpaceRatio: 0.5,
+                MapElementConfigurations: new[]
+                {
+                    new MapElementConfiguration("#", "mountain", new[] { new ElementToSize(2, 20), new ElementToSize(1, 30) }, 3),
+                    new MapElementConfiguration("&", "pit", new[] { new ElementToSize(3, 10) }, 10),
+                    new MapElementConfiguration("%", "mineral", new[] { new ElementToSize(5, 5) }, 0),
+                    new MapElementConfiguration("*", "water", new[] { new ElementToSize(4, 15) }, 0)
+                });
+
+            // Act
+            bool isValid = validator.Validate(configuration);
+
+            // Assert
+            Assert.IsTrue(isValid);
+        }
+        [Test]
+        public void FalseInvalidMapSizeValidation()
+        {
+            // Arrange
+            var configuration = new MapConfiguration(
+                MapSize: -100,
+                ElementToSpaceRatio: 0.5,
+                MapElementConfigurations: new[]
+                {
+                    new MapElementConfiguration("#", "mountain", new[] { new ElementToSize(2, 20), new ElementToSize(1, 30) }, 3)
+                });
+
+            // Act
+            bool isValid = validator.Validate(configuration);
+
+            // Assert
+            Assert.IsFalse(isValid);
+        }
+        [Test]
+        public void FalseInvalidElementToSpaceRatioValidation()
+        {
+            // Arrange
+            var configuration = new MapConfiguration(
+                MapSize: 1000,
+                ElementToSpaceRatio: 1.5,
+                MapElementConfigurations: new[]
+                {
+                    new MapElementConfiguration("#", "mountain", new[] { new ElementToSize(2, 20), new ElementToSize(1, 30) }, 3)
+                });
+
+            // Act
+            bool isValid = validator.Validate(configuration);
+
+            // Assert
+            Assert.IsFalse(isValid);
         }
     }
 }

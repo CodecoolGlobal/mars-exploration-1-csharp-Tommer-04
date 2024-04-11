@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Codecool.MarsExploration
-build_property.ProjectDir = D:\Programing\mars-exploration-1-csharp-Tommer-04\Codecool.MarsExploration\
+build_property.ProjectDir = D:\Codecool\OOP\TW3-4-5\Codecool.MarsExploration\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
