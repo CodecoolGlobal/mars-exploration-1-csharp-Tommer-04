@@ -4,6 +4,10 @@ using Codecool.MarsExploration.Configuration.Model;
 using Codecool.MarsExploration.Configuration.Service;
 using Codecool.MarsExploration.MapElements.Model;
 using System.ComponentModel.DataAnnotations;
+using Moq;
+using Codecool.MarsExploration.MapElements.Service.Builder;
+using Codecool.MarsExploration.MapElements.Service.Generator;
+using Codecool.MarsExploration.MapElements.Service.Placer;
 
 namespace MarsExplorationTest
 
@@ -11,14 +15,26 @@ namespace MarsExplorationTest
     [TestFixture]
     public class MarsExplorationTest
     {
-        ICoordinateCalculator coordinateCalculator;
+        private ICoordinateCalculator coordinateCalculator;
+        private IDimensionCalculator dimensionCalculator;
         private MapConFigurationValidator validator;
+        private IMapElementsGenerator elementsGenerator;
+        private IMapElementBuilder mapElementBuilder;
+        private IMapGenerator generator;
+        private IMapElementPlacer elementPlacer;
 
         [SetUp]
         public void Setup()
         {
+            
             coordinateCalculator = new CordinateCalculator();
             validator = new MapConFigurationValidator();
+            dimensionCalculator = new DimensionCalculator();
+            mapElementBuilder = new MapElementBuilder(dimensionCalculator, coordinateCalculator);
+            elementsGenerator = new MapElementsGenerator(mapElementBuilder);
+            elementPlacer = new MapElementPlacer();
+            generator = new MapGenerator(elementsGenerator, validator, elementPlacer,coordinateCalculator);
+
         }
         [Test]
         public void AllDirections()
@@ -187,7 +203,7 @@ namespace MarsExplorationTest
             // Arrange
             var configuration = new MapConfiguration(
                 MapSize: 1000,
-                ElementToSpaceRatio: 0.8,
+                ElementToSpaceRatio: 1.5,
                 MapElementConfigurations: new[]
                 {
                     new MapElementConfiguration("#", "mountain", new[] { new ElementToSize(2, 20), new ElementToSize(1, 30) }, 3)
@@ -198,6 +214,162 @@ namespace MarsExplorationTest
 
             // Assert
             Assert.IsFalse(isValid);
+        }
+        [Test]
+        public void DimensionCalculatorTrue()
+        {
+            //Arrange
+            int size = 20;
+            int growth = 2;
+            int expectedDimension = (int)Math.Ceiling(Math.Sqrt(size)) + growth;
+
+            //Act
+            int result = dimensionCalculator.CalculateDimension(size, growth);
+
+            //Assert
+            Assert.AreEqual(expectedDimension, result);
+        }
+        [Test]
+        public void DimensionCalculatorFalseWrongSize()
+        {
+            //Arrange
+            int size = 0;
+            int growth = 2;
+            int expectedDimension = growth;
+
+            //Act
+            int result = dimensionCalculator.CalculateDimension(size, growth);
+
+            //Assert
+            Assert.AreEqual(expectedDimension, result);
+        }
+        [Test]
+        public void DimensionCalculatorFalseWrongGrowth()
+        {
+            // Arrange
+            int size = 100;
+            int growth = -2;
+            int expectedDimension = (int)Math.Ceiling(Math.Sqrt(size)) + growth;
+
+            // Act
+            int result = dimensionCalculator.CalculateDimension(size, growth);
+
+            // Assert
+            Assert.AreEqual(expectedDimension, result);
+        }
+        [Test]
+        public void RandomValidCoordinate()
+        {
+            // Arrange
+            int dimension = 10;
+
+            // Act
+            Coordinate randomCoordinate = coordinateCalculator.GetRandomCoordinate(dimension);
+
+            // Assert
+            Assert.That(randomCoordinate.X, Is.GreaterThanOrEqualTo(0).And.LessThan(dimension));
+            Assert.That(randomCoordinate.Y, Is.GreaterThanOrEqualTo(0).And.LessThan(dimension));
+        }
+        [Test]
+        public void MapElementBuilderTrue()
+        {
+            //Arrange
+            int size = 10;
+            string symbol = "#";
+            string name = "Mountain";
+            int dimensionGrowth = 2;
+            string preferredLocationSymbol = ".";
+
+            int expectedDimension = 6;
+            
+            // Act
+            MapElement mapElement = mapElementBuilder.Build(size, symbol, name, dimensionGrowth, preferredLocationSymbol);
+            int placedSymbolCount = 0;
+            for (int i = 0; i < mapElement.Representation.GetLength(0); i++)
+            {
+                for(int j = 0; j < mapElement.Representation.GetLength(1); j++)
+                {
+                    if (mapElement.Representation[i,j] == symbol)
+                    {
+                        placedSymbolCount++;
+                    }
+                }
+            }
+
+            // Assert
+            Assert.IsNotNull(mapElement);
+            Assert.AreEqual(name, mapElement.Name);
+            Assert.AreEqual(expectedDimension, mapElement.Dimension);
+            Assert.AreEqual(preferredLocationSymbol, mapElement.PreferredLocationSymbol);
+            Assert.AreEqual(placedSymbolCount, size);
+        }
+        [Test]
+        public void MapElementPlacerTest()
+        {
+            //Arrange
+            string[,] testMap = new string[5, 5]
+            {
+                {" "," "," "," "," "},
+                {" "," "," "," "," "},
+                {" "," "," "," "," "},
+                {" "," "," "," "," "},
+                {" "," "," "," "," "},
+            };
+            Coordinate testCord1 = new Coordinate(0, 0);
+            Coordinate testCord2 = new Coordinate(3, 3);
+            string[,] testRepresentation = new string[3, 3]
+            {
+                {" ", "#", " " },
+                {"#", "#", "#" },
+                {" ", "#", " " },
+            };
+
+            //Act
+            MapElement testElement = new MapElement(testRepresentation, "mountain", 3);
+
+            //Assert
+            Assert.That(elementPlacer.CanPlaceElement(testElement, testMap, testCord1), Is.EqualTo(true));
+            Assert.That(elementPlacer.CanPlaceElement(testElement, testMap, testCord2), Is.EqualTo(false));
+            elementPlacer.PlaceElement(testElement, testMap, testCord1);
+            Assert.That(testMap[1,1], Is.EqualTo("#"));
+
+        }
+        [Test]
+        public void MapGeneratorTest()
+        {
+            //Arrange
+            var mountainsCfg = new MapElementConfiguration("#", "mountain", new[]
+            {
+                new ElementToSize(2, 5),
+            }, 1);
+
+            List<MapElementConfiguration> elementsCfg = new() { mountainsCfg };
+            MapConfiguration testConfig = new MapConfiguration(10, 1, elementsCfg);
+
+            //Act
+            Map resultingMap = generator.Generate(testConfig);
+
+            //Assert
+            Assert.AreEqual(testConfig.MapSize, resultingMap.Representation.GetLength(0));
+        }
+        [Test]
+        public void ElementsGeneratorTest()
+        {
+            //Arrange
+            var mountainsCfg = new MapElementConfiguration("#", "mountain", new[]
+            {   
+                new ElementToSize(2, 5),
+            }, 1);
+
+            List<MapElementConfiguration> elementsCfg = new() { mountainsCfg };
+            MapConfiguration testConfig = new MapConfiguration(10, 1, elementsCfg);
+            
+            //Act
+            IEnumerable<MapElement> resultingElements = elementsGenerator.CreateAll(testConfig);
+
+            //Assert
+            Assert.That(resultingElements.Count(), Is.EqualTo(2));
+            
         }
     }
 }

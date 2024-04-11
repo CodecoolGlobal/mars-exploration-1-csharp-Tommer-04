@@ -8,11 +8,9 @@ public record Map(string?[,] Representation, bool SuccessfullyGenerated = false)
     {
         if (arr == null)
         {
-            return "InvalidMap";
-        } else
-        {
-            return string.Join("", arr.Cast<string>()) ?? "Invalid map";
-        }
+            return "Invalid Map";
+        } 
+        return string.Join("", arr.Cast<string>());
     }
 
     public override string ToString()

@@ -19,7 +19,6 @@ internal class Program
 
         Console.WriteLine("Mars Exploration Sprint 1");
         var mapConfig = GetConfiguration();
-        string WorkDir = AppDomain.CurrentDomain.BaseDirectory;
 
         IDimensionCalculator dimensionCalculator = new DimensionCalculator();
         ICoordinateCalculator coordinateCalculator = new CordinateCalculator();
@@ -31,32 +30,39 @@ internal class Program
 
         IMapGenerator mapGenerator = new MapGenerator(mapElementsGenerator, mapConfigValidator, mapElementPlacer, coordinateCalculator);
 
-        //CreateAndWriteMaps(3, mapGenerator, mapConfig);
+        CreateAndWriteMaps(3, mapGenerator, mapConfig);
 
-        Console.WriteLine("Mars maps successfully generated.");
-        Map map = mapGenerator.Generate(mapConfig);
-            for (int i = 0; i < map.Representation.GetLength(0); i++)
-            {
-                for (int j = 0; j < map.Representation.GetLength(1); j++)
-                {
-                    Console.Write(map.Representation[i, j]);
-                }
-                Console.WriteLine();
-            }
 
-        string[] lineArray = Enumerable.Range(0, map.Representation.GetLength(0))
-        .Select(row => string.Concat(Enumerable.Range(0, map.Representation.GetLength(1))
-        .Select(col => map.Representation[row, col])))
-        .ToArray();
-        File.WriteAllLines($"{WorkDir}\\test.map", lines);
         Console.ReadKey();
     }
 
     private static void CreateAndWriteMaps(int count, IMapGenerator mapGenerator, MapConfiguration mapConfig)
     {
-        
+        string WorkDir = AppDomain.CurrentDomain.BaseDirectory;
+        List<string[]> maps = new List<string[]>(); 
 
+        for(int i = 0; i < count; i++)
+        {
+            Map map = mapGenerator.Generate(mapConfig);
+            string[] writeableMap = new string[map.Representation.GetLength(0)];
+
+            for (int j = 0; j < map.Representation.GetLength(0); j++)
+            {
+                string concatenated = "";
+                for (int k = 0; k < map.Representation.GetLength(1); k++)
+                {
+                    concatenated += map.Representation[j, k];
+                }
+                writeableMap[j] = concatenated;
+            }
+            maps.Add(writeableMap);
+        }
         
+        for(int i = 0; i < count; i++)
+        {
+            File.WriteAllLines($"{WorkDir}\\map{i + 1}.map", maps[i]);
+        }
+        Console.WriteLine($"{count} map(s) generated to the Debug folder!");
     }
 
     private static MapConfiguration GetConfiguration()
