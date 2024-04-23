@@ -2,10 +2,13 @@
 using Codecool.MarsExploration.Calculators.Service;
 using Codecool.MarsExploration.Configuration.Model;
 using Codecool.MarsExploration.Configuration.Service;
+using Codecool.MarsExploration.Logger;
 using Codecool.MarsExploration.MapElements.Model;
 using Codecool.MarsExploration.MapElements.Service.Builder;
 using Codecool.MarsExploration.MapElements.Service.Generator;
 using Codecool.MarsExploration.MapElements.Service.Placer;
+using Codecool.MarsExploration.MapExplorer.MapLoader;
+using Codecool.MarsExploration.MapLoader;
 using Codecool.MarsExploration.Output.Service;
 using System.Formats.Tar;
 using System.Threading.Channels;
@@ -16,9 +19,28 @@ internal class Program
 
     public static void Main(string[] args)
     {
-
         Console.WriteLine("Mars Exploration Sprint 1");
         var mapConfig = GetConfiguration();
+        ILogger fileLogger = new FileLogger();
+        ILogger consoleLogger = new ConsoleLogger();
+
+        string WorkDir = AppDomain.CurrentDomain.BaseDirectory;
+
+
+        //RANDOM DATA
+        string location = $"{WorkDir}\\map1.map";
+        Coordinate landingSpot = new Coordinate(2, 2);
+        int maxStep = 10000;
+        IEnumerable<string> symbols = new[] { "%", "*" };
+
+
+        RoverConfig roverConfig = new RoverConfig(location,landingSpot,symbols,maxStep);
+        Console.WriteLine(roverConfig);
+
+        IMapLoader mapLoader = new MapLoader();
+
+
+
 
         IDimensionCalculator dimensionCalculator = new DimensionCalculator();
         ICoordinateCalculator coordinateCalculator = new CordinateCalculator();
@@ -32,6 +54,17 @@ internal class Program
 
         CreateAndWriteMaps(3, mapGenerator, mapConfig);
 
+
+
+        Map map = mapLoader.Load(location);
+        for(int i = 0; i < map.Representation.GetLength(0); i++)
+        {
+            for(int j = 0; j < map.Representation.GetLength(1); j++)
+            {
+                Console.Write(map.Representation[i,j]);
+            }
+            Console.WriteLine();
+        }
 
         Console.ReadKey();
     }
@@ -74,23 +107,22 @@ internal class Program
 
         var mountainsCfg = new MapElementConfiguration(mountainSymbol, "mountain", new[]
         {
-            new ElementToSize(1, 5),
+            new ElementToSize(1, 8),
         }, 1);
         var pitCfg = new MapElementConfiguration(pitSymbol, "pit", new[]
         {
-            new ElementToSize(1, 15),
-            new ElementToSize(3, 10),
+            new ElementToSize(2, 3),
         }, 3);
         var mineralCfg = new MapElementConfiguration(mineralSymbol, "mineral", new[]
         {
-            new ElementToSize(40, 1)
+            new ElementToSize(8, 1)
         }, 0, mountainSymbol);
         var waterCfg = new MapElementConfiguration(waterSymbol, "water", new[]
         {
-            new ElementToSize(30, 1)
+            new ElementToSize(10, 1)
         }, 0, pitSymbol);
 
         List<MapElementConfiguration> elementsCfg = new() { mountainsCfg, pitCfg, mineralCfg, waterCfg };
-        return new MapConfiguration(30, 1, elementsCfg);
+        return new MapConfiguration(10, 1, elementsCfg);
     }
 }
