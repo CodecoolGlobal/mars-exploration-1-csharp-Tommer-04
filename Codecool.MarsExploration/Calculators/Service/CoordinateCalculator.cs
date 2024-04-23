@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Codecool.MarsExploration.Calculators.Service
 {
-    public class CordinateCalculator : ICoordinateCalculator
+    public class CoordinateCalculator : ICoordinateCalculator
     {
         public Coordinate GetRandomCoordinate(int dimension)
         {

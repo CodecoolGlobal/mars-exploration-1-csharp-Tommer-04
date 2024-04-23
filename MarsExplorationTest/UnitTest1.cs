@@ -27,7 +27,7 @@ namespace MarsExplorationTest
         public void Setup()
         {
             
-            coordinateCalculator = new CordinateCalculator();
+            coordinateCalculator = new CoordinateCalculator();
             validator = new MapConFigurationValidator();
             dimensionCalculator = new DimensionCalculator();
             mapElementBuilder = new MapElementBuilder(dimensionCalculator, coordinateCalculator);

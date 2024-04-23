@@ -9,6 +9,7 @@ using Codecool.MarsExploration.MapElements.Service.Generator;
 using Codecool.MarsExploration.MapElements.Service.Placer;
 using Codecool.MarsExploration.MapExplorer.MapLoader;
 using Codecool.MarsExploration.MapLoader;
+using Codecool.MarsExploration.MarsRover;
 using Codecool.MarsExploration.Output.Service;
 using System.Formats.Tar;
 using System.Threading.Channels;
@@ -43,7 +44,7 @@ internal class Program
 
 
         IDimensionCalculator dimensionCalculator = new DimensionCalculator();
-        ICoordinateCalculator coordinateCalculator = new CordinateCalculator();
+        ICoordinateCalculator coordinateCalculator = new CoordinateCalculator();
         IMapElementBuilder mapElementBuilder = new MapElementBuilder(dimensionCalculator, coordinateCalculator);
         IMapElementsGenerator mapElementsGenerator = new MapElementsGenerator(mapElementBuilder);
 
@@ -66,6 +67,13 @@ internal class Program
             Console.WriteLine();
         }
 
+        Rover rover = new Rover("Rover-1", new Coordinate(2, 2), 3);
+        rover.foundResources.Add(("#",new Coordinate(3, 3)));
+        rover.foundResources.Add(("&", new Coordinate(4, 4)));
+        foreach(var resource in rover.foundResources)
+        {
+            Console.WriteLine($"symbol: {resource.symbol}, location: {resource.coordinate.X} {resource.coordinate.Y}");
+        }
         Console.ReadKey();
     }
 

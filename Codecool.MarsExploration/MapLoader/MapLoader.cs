@@ -31,12 +31,7 @@ namespace Codecool.MarsExploration.MapLoader
                 CurrentRow++;
 
             }
-            
-            foreach (var line in mapLines)
-            {
-                Console.WriteLine(line);
-            }
-            Console.WriteLine("------------------------------------------------------");
+
             return new Map(map, true);
         }
     }

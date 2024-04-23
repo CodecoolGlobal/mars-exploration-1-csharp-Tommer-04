@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Codecool.MarsExploration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f989cf05f4356ebe69b48706fc0ce245c5626e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6acbff4360a0997446b201f745f85bfa9ddb3123")]
 [assembly: System.Reflection.AssemblyProductAttribute("Codecool.MarsExploration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Codecool.MarsExploration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
