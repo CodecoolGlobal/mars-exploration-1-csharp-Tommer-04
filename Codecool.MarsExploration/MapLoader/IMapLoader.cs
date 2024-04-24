@@ -1,6 +1,6 @@
 ﻿using Codecool.MarsExploration.MapElements.Model;
 
-namespace Codecool.MarsExploration.MapExplorer.MapLoader;
+namespace Codecool.MarsExploration.MapLoader;
 
 public interface IMapLoader
 {

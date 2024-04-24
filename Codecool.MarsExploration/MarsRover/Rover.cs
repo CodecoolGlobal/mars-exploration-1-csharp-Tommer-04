@@ -13,15 +13,18 @@ namespace Codecool.MarsExploration.MarsRover
         public string Id { get; }
         public Coordinate CurrentPosition { get; set; }
         public int ViewDistance { get; }
+        public List<string> TargetResources { get; } 
 
         public List<(string symbol, Coordinate coordinate)> foundResources = new List<(string symbol, Coordinate coordinate)>();
-        public string[,] DiscoveredTiles { get; }
+        public string[,] DiscoveredTiles { get; set; }
 
-        public Rover(string id, Coordinate currentPosition, int viewDistance)
+        public Rover(string id, Coordinate currentPosition, int viewDistance, List<string> targetResources, string[,] discoveredTiles)
         {
             Id = id;
             CurrentPosition = currentPosition;
             ViewDistance = viewDistance;
+            TargetResources = targetResources;
+            DiscoveredTiles = discoveredTiles;
         }
     }
 }

@@ -8,6 +8,8 @@ using Moq;
 using Codecool.MarsExploration.MapElements.Service.Builder;
 using Codecool.MarsExploration.MapElements.Service.Generator;
 using Codecool.MarsExploration.MapElements.Service.Placer;
+using Codecool.MarsExploration.MarsRover;
+using Codecool.MarsExploration.MapLoader;
 
 namespace MarsExplorationTest
 
@@ -22,6 +24,7 @@ namespace MarsExplorationTest
         private IMapElementBuilder mapElementBuilder;
         private IMapGenerator generator;
         private IMapElementPlacer elementPlacer;
+        private IMapLoader mapLoader;
 
         [SetUp]
         public void Setup()
@@ -34,7 +37,7 @@ namespace MarsExplorationTest
             elementsGenerator = new MapElementsGenerator(mapElementBuilder);
             elementPlacer = new MapElementPlacer();
             generator = new MapGenerator(elementsGenerator, validator, elementPlacer,coordinateCalculator);
-
+            mapLoader = new MapLoader();
         }
         [Test]
         public void AllDirections()
@@ -370,6 +373,20 @@ namespace MarsExplorationTest
             //Assert
             Assert.That(resultingElements.Count(), Is.EqualTo(2));
             
+        }
+        [Test]
+        public void MapLoaderTest()
+        {
+            //Arrange
+            string currentProjectDir = AppDomain.CurrentDomain.BaseDirectory;
+            string mainProjectDir = Path.GetFullPath(Path.Combine(currentProjectDir, @"..\..\Codecool.MarsExploration\bin\Debug\net8.0"));
+            string mapFilePath = Path.GetFullPath("..\\..\\..\\..\\Codecool.MarsExploration\\bin\\Debug\\net8.0");
+
+            //Act
+            Map resultingmap = mapLoader.Load(mapFilePath);
+
+            //Assert
+            Assert.That(resultingmap != null);
         }
     }
 }

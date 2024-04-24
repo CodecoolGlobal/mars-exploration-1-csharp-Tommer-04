@@ -3,7 +3,7 @@ using Codecool.MarsExploration.Calculators.Service;
 using Codecool.MarsExploration.Configuration.Model;
 using Codecool.MarsExploration.Logger;
 using Codecool.MarsExploration.MapElements.Model;
-using Codecool.MarsExploration.MapExplorer.MapLoader;
+using Codecool.MarsExploration.MapLoader;
 using System;
 using System.Collections.Generic;
 using System.Linq;

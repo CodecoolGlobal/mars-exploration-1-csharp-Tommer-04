@@ -1,5 +1,5 @@
 ﻿using Codecool.MarsExploration.MapElements.Model;
-using Codecool.MarsExploration.MapExplorer.MapLoader;
+using Codecool.MarsExploration.MapLoader;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
