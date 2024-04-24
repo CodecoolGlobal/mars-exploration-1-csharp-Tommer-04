@@ -19,7 +19,7 @@ namespace Codecool.MarsExploration.Configuration.Service
         private readonly ILogger _logger;
         private readonly IMapLoader _mapLoader;
 
-        RoverConfigValidator(ICoordinateCalculator coordinateCalculator, ILogger logger, IMapLoader mapLoader) 
+        public RoverConfigValidator(ICoordinateCalculator coordinateCalculator, ILogger logger, IMapLoader mapLoader) 
         { 
             _coordinateCalculator = coordinateCalculator;
             _logger = logger;
@@ -30,7 +30,7 @@ namespace Codecool.MarsExploration.Configuration.Service
         {
             if (string.IsNullOrEmpty(roverConfig.location))
             {
-                _logger.LogError("File path is empty or null");
+                _logger.LogError("File not found");
                 return false;
             };
             Map map = _mapLoader.Load(roverConfig.location);
@@ -44,6 +44,7 @@ namespace Codecool.MarsExploration.Configuration.Service
             if (map.Representation[roverConfig.landingSpot.Y, roverConfig.landingSpot.X] != " ")
             {
                 _logger.LogError("Landing spot is occupied");
+                _logger.LogError($"{map.Representation[roverConfig.landingSpot.Y, roverConfig.landingSpot.X]}");
                 return false;
             };
 

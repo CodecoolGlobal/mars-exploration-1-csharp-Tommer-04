@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codecool.MarsExploration", "Codecool.MarsExploration\Codecool.MarsExploration.csproj", "{DD2525B6-EEA2-46DF-9276-5FD34104ECA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsExplorationTest", "MarsExplorationTest\MarsExplorationTest.csproj", "{45354CB9-4D84-44B1-8C32-F0A8BD8ACB8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarsExplorationTest", "MarsExplorationTest\MarsExplorationTest.csproj", "{45354CB9-4D84-44B1-8C32-F0A8BD8ACB8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

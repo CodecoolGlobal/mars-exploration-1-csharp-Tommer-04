@@ -75,7 +75,6 @@ internal class Program
             Console.WriteLine($"symbol: {resource.symbol}, location: {resource.coordinate.X} {resource.coordinate.Y}");
         }
         */
-        Console.WriteLine($"..\\{WorkDir}\\Codecool.MarsExploration\\bin\\Debug\\net8.0\\map1.map");
         Console.ReadKey();
     }
 
@@ -117,19 +116,19 @@ internal class Program
 
         var mountainsCfg = new MapElementConfiguration(mountainSymbol, "mountain", new[]
         {
-            new ElementToSize(1, 8),
+            new ElementToSize(0, 0),
         }, 1);
         var pitCfg = new MapElementConfiguration(pitSymbol, "pit", new[]
         {
-            new ElementToSize(2, 3),
+            new ElementToSize(4, 10),
         }, 3);
         var mineralCfg = new MapElementConfiguration(mineralSymbol, "mineral", new[]
         {
-            new ElementToSize(8, 1)
+            new ElementToSize(0, 0)
         }, 0, mountainSymbol);
         var waterCfg = new MapElementConfiguration(waterSymbol, "water", new[]
         {
-            new ElementToSize(10, 1)
+            new ElementToSize(50, 1)
         }, 0, pitSymbol);
 
         List<MapElementConfiguration> elementsCfg = new() { mountainsCfg, pitCfg, mineralCfg, waterCfg };
