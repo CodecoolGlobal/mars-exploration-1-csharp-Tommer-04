@@ -1133,19 +1133,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Felhasználó\\.nuget\\packages\\": {}
+    "C:\\Users\\horva\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\MarsExplorationTest\\MarsExplorationTest.csproj",
+      "projectUniqueName": "D:\\Codecool\\OOP\\TW3-4-5\\MarsExplorationTest\\MarsExplorationTest.csproj",
       "projectName": "MarsExplorationTest",
-      "projectPath": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\MarsExplorationTest\\MarsExplorationTest.csproj",
-      "packagesPath": "C:\\Users\\Felhasználó\\.nuget\\packages\\",
-      "outputPath": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\MarsExplorationTest\\obj\\",
+      "projectPath": "D:\\Codecool\\OOP\\TW3-4-5\\MarsExplorationTest\\MarsExplorationTest.csproj",
+      "packagesPath": "C:\\Users\\horva\\.nuget\\packages\\",
+      "outputPath": "D:\\Codecool\\OOP\\TW3-4-5\\MarsExplorationTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Felhasználó\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\horva\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1159,8 +1159,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj": {
-              "projectPath": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj"
+            "D:\\Codecool\\OOP\\TW3-4-5\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj": {
+              "projectPath": "D:\\Codecool\\OOP\\TW3-4-5\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj"
             }
           }
         }
@@ -1221,7 +1221,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
