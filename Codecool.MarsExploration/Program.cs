@@ -15,66 +15,43 @@ using System.Threading.Channels;
 
 internal class Program
 {
-    //You can change this to any directory you like
-
     public static void Main(string[] args)
     {
-        Console.WriteLine("Mars Exploration Sprint 1");
-        var mapConfig = GetConfiguration();
         ILogger fileLogger = new FileLogger();
         ILogger consoleLogger = new ConsoleLogger();
-
-        string WorkDir = AppDomain.CurrentDomain.BaseDirectory;
-
-
-        //RANDOM DATA
-        string location = $"{WorkDir}\\map1.map";
-        Coordinate landingSpot = new Coordinate(2, 2);
-        int maxStep = 10000;
-        IEnumerable<string> symbols = new[] { "%", "*" };
-
-
-        RoverConfig roverConfig = new RoverConfig(location,landingSpot,symbols,maxStep);
-        Console.WriteLine(roverConfig);
-
         IMapLoader mapLoader = new MapLoader();
-
-
-
-
         IDimensionCalculator dimensionCalculator = new DimensionCalculator();
         ICoordinateCalculator coordinateCalculator = new CoordinateCalculator();
         IMapElementBuilder mapElementBuilder = new MapElementBuilder(dimensionCalculator, coordinateCalculator);
         IMapElementsGenerator mapElementsGenerator = new MapElementsGenerator(mapElementBuilder);
-
         IMapConfigurationValidator mapConfigValidator = new MapConFigurationValidator();
         IMapElementPlacer mapElementPlacer = new MapElementPlacer();
-
         IMapGenerator mapGenerator = new MapGenerator(mapElementsGenerator, mapConfigValidator, mapElementPlacer, coordinateCalculator);
+        IRoverConfigValidator roverConfigValidator = new RoverConfigValidator(coordinateCalculator, consoleLogger, mapLoader);
+        RoverScan roverScan = new RoverScan();
+        RoverMerge roverMerge = new RoverMerge();
+        RoverDeployer roverDeployer = new RoverDeployer(roverConfigValidator, mapLoader, roverScan, roverMerge, coordinateCalculator);
+        
+        
 
+
+        var mapConfig = GetConfiguration();
         CreateAndWriteMaps(3, mapGenerator, mapConfig);
+        
 
 
+        string WorkDir = AppDomain.CurrentDomain.BaseDirectory;
+        string location = $"{WorkDir}\\map1.map";
+        Coordinate landingSpot = new Coordinate(4, 4);
+        int maxStep = 10000;
+        IEnumerable<string> symbols = new[] { "%", "*" };
 
-        Map map = mapLoader.Load(location);
-        for(int i = 0; i < map.Representation.GetLength(0); i++)
-        {
-            for(int j = 0; j < map.Representation.GetLength(1); j++)
-            {
-                Console.Write(map.Representation[i,j]);
-            }
-            Console.WriteLine();
-        }
+        SimulationContext simulationContext = new SimulationContext("Sim1", 10000, 1, symbols, location, landingSpot);
 
-        /*
-        Rover rover = new Rover("Rover-1", new Coordinate(2, 2), 3, new);
-        rover.foundResources.Add(("#",new Coordinate(3, 3)));
-        rover.foundResources.Add(("&", new Coordinate(4, 4)));
-        foreach(var resource in rover.foundResources)
-        {
-            Console.WriteLine($"symbol: {resource.symbol}, location: {resource.coordinate.X} {resource.coordinate.Y}");
-        }
-        */
+        //összeraktam ide, de mennem kell mert konzultáció
+        Simulator simulator = new Simulator(mapLoader, roverDeployer, coordinateCalculator, roverScan, roverMerge);
+        simulator.Run(simulationContext);
+
         Console.ReadKey();
     }
 
@@ -116,22 +93,24 @@ internal class Program
 
         var mountainsCfg = new MapElementConfiguration(mountainSymbol, "mountain", new[]
         {
-            new ElementToSize(0, 0),
+            new ElementToSize(1, 15),
+            new ElementToSize(3, 10)
         }, 1);
         var pitCfg = new MapElementConfiguration(pitSymbol, "pit", new[]
         {
-            new ElementToSize(4, 10),
+            new ElementToSize(1,15),
+            new ElementToSize(3, 10)
         }, 3);
         var mineralCfg = new MapElementConfiguration(mineralSymbol, "mineral", new[]
         {
-            new ElementToSize(0, 0)
+            new ElementToSize(30, 1)
         }, 0, mountainSymbol);
         var waterCfg = new MapElementConfiguration(waterSymbol, "water", new[]
         {
-            new ElementToSize(50, 1)
+            new ElementToSize(30, 1)
         }, 0, pitSymbol);
 
         List<MapElementConfiguration> elementsCfg = new() { mountainsCfg, pitCfg, mineralCfg, waterCfg };
-        return new MapConfiguration(10, 1, elementsCfg);
+        return new MapConfiguration(40, 1, elementsCfg);
     }
 }

@@ -57,7 +57,7 @@ namespace Codecool.MarsExploration.MarsRover
                 }
             }
 
-            var startingScan = _roverScan.Scan(startingCoordinate, map, viewDistance);
+            var startingScan = _roverScan.Scan(startingCoordinate, map.Representation, viewDistance);
             _roverMerge.Merge(roversMap, startingScan.scannedMap, startingScan.startingCoord);
             
             return new Rover(id, startingCoordinate, viewDistance, roverConfig.symbols.ToList(), roversMap, roverConfig.landingSpot, roverConfig.maxSteps);

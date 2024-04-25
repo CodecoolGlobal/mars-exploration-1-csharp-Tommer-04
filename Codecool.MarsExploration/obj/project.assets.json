@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\horva\\.nuget\\packages\\": {}
+    "C:\\Users\\Felhasználó\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Codecool\\OOP\\TW3-4-5\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj",
+      "projectUniqueName": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj",
       "projectName": "Codecool.MarsExploration",
-      "projectPath": "D:\\Codecool\\OOP\\TW3-4-5\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj",
-      "packagesPath": "C:\\Users\\horva\\.nuget\\packages\\",
-      "outputPath": "D:\\Codecool\\OOP\\TW3-4-5\\Codecool.MarsExploration\\obj\\",
+      "projectPath": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\Codecool.MarsExploration\\Codecool.MarsExploration.csproj",
+      "packagesPath": "C:\\Users\\Felhasználó\\.nuget\\packages\\",
+      "outputPath": "D:\\Programing\\mars-exploration-1-csharp-Tommer-04\\Codecool.MarsExploration\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\horva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Felhasználó\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -66,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

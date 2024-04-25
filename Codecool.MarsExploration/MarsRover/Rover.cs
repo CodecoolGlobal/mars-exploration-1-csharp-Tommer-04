@@ -13,27 +13,39 @@ namespace Codecool.MarsExploration.MarsRover
         public string Id { get; }
         public Coordinate CurrentPosition { get; set; }
         
-        public Coordinate RocketPosittion { get; }
+        public Coordinate RocketPosition { get; }
         public int ViewDistance { get; }
         public List<string> TargetResources { get; } 
 
         public List<(string symbol, Coordinate coordinate)> foundResources = new List<(string symbol, Coordinate coordinate)>();
-        public string[,] DiscoveredTiles { get; set; }
+        public string[,] DiscoveredMap { get; set; }
+
+        public List<Coordinate> VisitedTiles { get; set; }
 
         public int Steps {  get; set; }
 
         public int TimeOutLimit { get; }
 
-        public Rover(string id, Coordinate currentPosition, int viewDistance, List<string> targetResources, string[,] discoveredTiles, Coordinate rocketPosittion, int timeOutLimit)
+        public bool IsTask1Successful {  get; set; }
+        public bool IsTask2Successful { get; set; }
+
+        public Coordinate HabitableArea { get; set; }
+
+        public Rover(string id, Coordinate currentPosition, int viewDistance, List<string> targetResources, string[,] discoveredMap, Coordinate rocketPosition, int timeOutLimit)
         {
             Id = id;
             CurrentPosition = currentPosition;
             ViewDistance = viewDistance;
             TargetResources = targetResources;
-            DiscoveredTiles = discoveredTiles;
-            RocketPosittion = rocketPosittion;
+            DiscoveredMap = discoveredMap;
+            RocketPosition = rocketPosition;
             Steps = 0;
             TimeOutLimit = timeOutLimit;
+            VisitedTiles = [currentPosition];
+            IsTask1Successful = false;
+            IsTask2Successful = false;
+            HabitableArea = new Coordinate(0,0);
         }
+
     }
 }

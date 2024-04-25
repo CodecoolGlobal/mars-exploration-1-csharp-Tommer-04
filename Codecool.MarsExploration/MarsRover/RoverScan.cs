@@ -10,9 +10,9 @@ namespace Codecool.MarsExploration.MarsRover
 {
     public class RoverScan
     {
-        public (string[,]scannedMap, Coordinate startingCoord) Scan(Coordinate currentPosition, Map map, int viewDistance)
+        public (string[,]scannedMap, Coordinate startingCoord) Scan(Coordinate currentPosition, string[,] map, int viewDistance)
         {
-            int mapLength = map.Representation.GetLength(0);
+            int mapLength = map.GetLength(0);
             int distanceDown;
             int distanceUp;
             int distanceLeft;
@@ -65,7 +65,7 @@ namespace Codecool.MarsExploration.MarsRover
             {
                 for(int j = startingCoord.X; j < startingCoord.X + scannedArea.GetLength(1); j++)
                 {
-                    scannedArea[Yindex, Xindex] = map.Representation[i,j];
+                    scannedArea[Yindex, Xindex] = map[i,j];
                     Xindex++;
                 }
                 Yindex++;
