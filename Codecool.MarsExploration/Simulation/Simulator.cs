@@ -203,7 +203,7 @@ public class Simulator
 
                         if (isThereMineral && isThereSpace && IsThereWater)
                         {
-							rover.HabitableArea = new Coordinate(l, k);
+							rover.HabitableArea = new Coordinate(j, i);
                         }
                     }
 				}

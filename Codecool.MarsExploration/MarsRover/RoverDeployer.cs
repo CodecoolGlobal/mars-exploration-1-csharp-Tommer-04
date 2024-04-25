@@ -33,7 +33,15 @@ namespace Codecool.MarsExploration.MarsRover
         {
             if(!_roverConfigValidator.validate(roverConfig))
             {
-                 throw new InvalidDataException();
+                try
+                {
+                    throw new Exception("Invalid configuration!");
+                } catch (Exception ex)
+                {
+                    Console.WriteLine("Press any kay to terminate the process...");
+                    Console.ReadKey();
+                    Environment.FailFast("Incorrect config");
+                }                
             }
 
             Map map = _mapLoader.Load(roverConfig.location);

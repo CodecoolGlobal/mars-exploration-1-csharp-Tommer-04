@@ -107,7 +107,7 @@ internal class Program
         }, 0, mountainSymbol);
         var waterCfg = new MapElementConfiguration(waterSymbol, "water", new[]
         {
-            new ElementToSize(30, 1)
+            new ElementToSize(30, 1) 
         }, 0, pitSymbol);
 
         List<MapElementConfiguration> elementsCfg = new() { mountainsCfg, pitCfg, mineralCfg, waterCfg };
