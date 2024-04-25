@@ -61,7 +61,7 @@ namespace Codecool.MarsExploration.MarsRover
             {
                 for (int j = 0; j < roversMap.GetLength(1); j++)
                 {
-                    roversMap[i, j] = "X";
+                    roversMap[i, j] = "█";
                 }
             }
 
