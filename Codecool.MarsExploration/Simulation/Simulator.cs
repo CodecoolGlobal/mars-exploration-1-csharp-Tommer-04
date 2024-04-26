@@ -1,6 +1,7 @@
 ﻿using Codecool.MarsExploration.Calculators.Model;
 using Codecool.MarsExploration.Calculators.Service;
 using Codecool.MarsExploration.Configuration.Model;
+using Codecool.MarsExploration.Logger;
 using Codecool.MarsExploration.MapElements.Model;
 using Codecool.MarsExploration.MapLoader;
 using Codecool.MarsExploration.MarsRover;
@@ -14,18 +15,24 @@ public class Simulator
 	private readonly ICoordinateCalculator _coordinateCalculator;
 	private readonly RoverScan _roverScan;
 	private readonly RoverMerge _roverMerge;
+	private readonly FileLogger _fileLogger;
+	private readonly string workDir = Directory.GetCurrentDirectory();
 
-	public Simulator(IMapLoader mapLoader, RoverDeployer roverDeployer, ICoordinateCalculator coordinateCalculator, RoverScan roverScan, RoverMerge roverMerge)
+
+    public Simulator(IMapLoader mapLoader, RoverDeployer roverDeployer, ICoordinateCalculator coordinateCalculator, RoverScan roverScan, RoverMerge roverMerge, FileLogger fileLogger)
 	{
 		_mapLoader = mapLoader;
 		_roverDeployer = roverDeployer;
 		_coordinateCalculator = coordinateCalculator;
 		_roverScan = roverScan;
 		_roverMerge = roverMerge;
+		_fileLogger = fileLogger;
 	}
 
 	public void Run(SimulationContext simulationContext)
 	{
+		File.WriteAllText($"{workDir}\\logs.txt", "");
+
 		Map map = _mapLoader.Load(simulationContext.mapLocation);
 		RoverConfig roverConfig = new RoverConfig(simulationContext.mapLocation, simulationContext.landingSpot, simulationContext.resources, simulationContext.timeOut);
 		Rover rover = _roverDeployer.Deploy(simulationContext.id, simulationContext.viewDistance, roverConfig);
@@ -37,16 +44,19 @@ public class Simulator
             var scannedArea = _roverScan.Scan(rover.CurrentPosition, map.Representation, rover.ViewDistance);
             _roverMerge.Merge(rover.DiscoveredMap, scannedArea.scannedMap, scannedArea.startingCoord);
             Analize(rover);
+            rover.Steps++;
             if (rover.IsTask1Successful && rover.IsTask2Successful)
 			{
 				if(rover.Steps + HowManyStepsToReturn(rover) < rover.TimeOutLimit)
 				{
 					resultOutcome = $"Everything was successful! Habitable area: X:{rover.HabitableArea.X} Y:{rover.HabitableArea.Y}";
 					simulationOver = true;
-				} else
+                    File.AppendAllText($"{workDir}\\logs.txt", $"STEP {rover.Steps}; EVENT outcome; OUTCOME COLONIZABLE" + Environment.NewLine);
+                } else
 				{
                     resultOutcome = $"Maximum steps reached! (Both task was successful) Habitable area: X:{rover.HabitableArea.X} Y:{rover.HabitableArea.Y}";
 					simulationOver = true;
+                    File.AppendAllText($"{workDir}\\logs.txt", $"STEP {rover.Steps}; EVENT outcome; OUTCOME COLONIZABLE" + Environment.NewLine);
                 }
 			}
 
@@ -54,24 +64,29 @@ public class Simulator
             {
                 resultOutcome = "Maximum steps reached! (No task was successful)";
                 simulationOver = true;
+				if(!rover.IsTask2Successful && !rover.IsTask1Successful)
+                File.AppendAllText($"{workDir}\\logs.txt", $"STEP {rover.Steps}; EVENT outcome; OUTCOME UNHABITABLE" + Environment.NewLine);
             }
 
             if (rover.IsTask1Successful && rover.Steps + HowManyStepsToReturn(rover) > rover.TimeOutLimit)
             {
                 resultOutcome = "Maximum steps reached! (1st task was successful)";
                 simulationOver = true;
+                File.AppendAllText($"{workDir}\\logs.txt", $"STEP {rover.Steps}; EVENT outcome; OUTCOME TASK ONE" + Environment.NewLine);
             }
 
             if (rover.IsTask2Successful && rover.Steps + HowManyStepsToReturn(rover) > rover.TimeOutLimit)
             {
                 resultOutcome = $"Maximum steps reached! (2nd task was successful) Habitable area: X:{rover.HabitableArea.X} Y:{rover.HabitableArea.Y}";
                 simulationOver = true;
+                File.AppendAllText($"{workDir}\\logs.txt", $"STEP {rover.Steps}; EVENT outcome; OUTCOME TASK TWO" + Environment.NewLine);
             }
 
-			
-			rover.Steps++;
-            Console.WriteLine($"{rover.Steps} COMPLETED");
-
+			if (!simulationOver)
+			{
+                File.AppendAllText($"{workDir}\\logs.txt", $"STEP {rover.Steps}; EVENT position; UNIT {rover.Id}; POSITION [{rover.CurrentPosition.Y},{rover.CurrentPosition.X}]" + Environment.NewLine);
+            }
+            Console.WriteLine($"STEP {rover.Steps}; EVENT position; UNIT {rover.Id}; POSITION [{rover.CurrentPosition.Y},{rover.CurrentPosition.X}]");			
         }
 
         Console.WriteLine(resultOutcome);

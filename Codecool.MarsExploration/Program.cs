@@ -17,7 +17,7 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        ILogger fileLogger = new FileLogger();
+        FileLogger fileLogger = new FileLogger();
         ILogger consoleLogger = new ConsoleLogger();
         IMapLoader mapLoader = new MapLoader();
         IDimensionCalculator dimensionCalculator = new DimensionCalculator();
@@ -49,9 +49,8 @@ internal class Program
         SimulationContext simulationContext = new SimulationContext("Sim1", 10000, 1, symbols, location, landingSpot);
 
         //összeraktam ide, de mennem kell mert konzultáció
-        Simulator simulator = new Simulator(mapLoader, roverDeployer, coordinateCalculator, roverScan, roverMerge);
+        Simulator simulator = new Simulator(mapLoader, roverDeployer, coordinateCalculator, roverScan, roverMerge, fileLogger);
         simulator.Run(simulationContext);
-
         Console.ReadKey();
     }
 
