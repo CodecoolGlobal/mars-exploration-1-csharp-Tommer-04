@@ -47,7 +47,7 @@ Before you begin, make sure you have the following installed on your machine:
 
 - [.NET Core SDK](https://dotnet.microsoft.com/download) (8.0 or later)
 
-- ## Project Structure
+## Project Structure
 
 ```
 root
@@ -66,21 +66,21 @@ cd mars-exploration-1-csharp-Tommer-04
 
 ## Starting the application
 
-# Navigate to the application fodler
+### Navigate to the application fodler
 
 From the root folder you can navigate to the application using this command:
 ```bash
 cd Coodecool.MarsExploration
 ```
 
-# How to Build
+### How to Build
 To build the project, use the following command in the root directory of the repository:
 
 ```bash
 dotnet build
 ```
 
-# How to Run
+### How to Run
 
 To run the application, use the following command:
 
