@@ -19,7 +19,9 @@ This repository contains a C# Console Application that generates and explores ma
 The application tracks the simulation and displays information and the end results in the console.
 
 Example of a generated map:
+
 ![Generated Map](generatedmap.png)
+
 - **The symbols in this example are:**
   - **Mountain (#)** 
   - **Pits (&)**  
@@ -29,7 +31,9 @@ Example of a generated map:
 
 
 Example of a discovered map as the rover percieved it:
+
 ![Discovered Map](discoveredmap.png)
+
 The white space represents the undiscovered piece of the map where the rover didn't explore during its mission.
 
 ## Usage
