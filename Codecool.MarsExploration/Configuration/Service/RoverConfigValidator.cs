@@ -19,11 +19,20 @@ namespace Codecool.MarsExploration.Configuration.Service
         private readonly ILogger _logger;
         private readonly IMapLoader _mapLoader;
 
-        public RoverConfigValidator(ICoordinateCalculator coordinateCalculator, ILogger logger, IMapLoader mapLoader) 
+        private readonly string _mountainSymbol;
+        private readonly string _pitSymbol;
+        private readonly string _mineralSymbol;
+        private readonly string _waterSymbol;
+
+        public RoverConfigValidator(ICoordinateCalculator coordinateCalculator, ILogger logger, IMapLoader mapLoader, string mountainSymbol, string pitSymbol, string mineralSymbol, string waterSymbol) 
         { 
             _coordinateCalculator = coordinateCalculator;
             _logger = logger;
             _mapLoader = mapLoader;
+            _mountainSymbol = mountainSymbol;
+            _pitSymbol = pitSymbol;
+            _mineralSymbol = mineralSymbol;
+            _waterSymbol = waterSymbol;
         }
 
         public bool validate(RoverConfig roverConfig)
@@ -60,7 +69,7 @@ namespace Codecool.MarsExploration.Configuration.Service
                 return false;
             };
 
-            string[] validSymbols = { "%", "*", "#", "&" };
+            string[] validSymbols = { _mineralSymbol, _waterSymbol, _mountainSymbol, _pitSymbol };
             if (roverConfig.symbols.Count() < 1)
             {
                 _logger.LogError("Has no symbols");

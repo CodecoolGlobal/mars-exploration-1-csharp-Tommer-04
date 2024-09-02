@@ -18,8 +18,13 @@ public class Simulator
 	private readonly FileLogger _fileLogger;
 	private readonly string workDir = Directory.GetCurrentDirectory();
 
+	private readonly string _mineralSymbol;
+	private readonly string _waterSymbol;
+	private readonly int _expectedMineralCount;
+	private readonly int _expectedWaterCount;
 
-    public Simulator(IMapLoader mapLoader, RoverDeployer roverDeployer, ICoordinateCalculator coordinateCalculator, RoverScan roverScan, RoverMerge roverMerge, FileLogger fileLogger)
+
+    public Simulator(IMapLoader mapLoader, RoverDeployer roverDeployer, ICoordinateCalculator coordinateCalculator, RoverScan roverScan, RoverMerge roverMerge, FileLogger fileLogger, string mineralSymbol, string waterSymbol, int expectedMineralCount, int expectedWaterCount)
 	{
 		_mapLoader = mapLoader;
 		_roverDeployer = roverDeployer;
@@ -27,6 +32,10 @@ public class Simulator
 		_roverScan = roverScan;
 		_roverMerge = roverMerge;
 		_fileLogger = fileLogger;
+		_mineralSymbol = mineralSymbol;
+		_waterSymbol = waterSymbol;
+		_expectedMineralCount = expectedMineralCount;
+		_expectedWaterCount = expectedWaterCount;
 	}
 
 	public void Run(SimulationContext simulationContext)
@@ -172,23 +181,22 @@ public class Simulator
 		int mineralCount = 0;
 		foreach(var touple in rover.foundResources)
 		{
-			if (touple.symbol == "*")
+            if (touple.symbol == _waterSymbol)
 			{
 				waterCount++;
-			}
-            if (touple.symbol == "%")
+            }
+            if (touple.symbol == _mineralSymbol)
             {
                 mineralCount++;
             }
         }
 
 		// TASK 1 CHECK
-		if(waterCount >= 3 && mineralCount >= 3)
+		if(waterCount >= _expectedWaterCount && mineralCount >= _expectedMineralCount)
 		{
 			rover.IsTask1Successful = true;
 		}
 
-		//BRAINDAMAGE !⚡!
 		bool didFindHabitableSpot = false;
         for (int i = 1; i < roverMap.GetLength(0) - 1; i++)
         {
@@ -207,11 +215,11 @@ public class Simulator
 						{
 							isThereSpace = true;
 						}
-						if(scanMap[k,l] == "*")
+						if(scanMap[k,l] == _waterSymbol)
 						{
 							IsThereWater = true;
 						}
-						if (scanMap[k,l] == "%")
+						if (scanMap[k,l] == _mineralSymbol)
 						{
 							isThereMineral = true;
 						}

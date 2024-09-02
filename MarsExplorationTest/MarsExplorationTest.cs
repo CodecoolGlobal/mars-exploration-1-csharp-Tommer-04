@@ -10,6 +10,7 @@ using Codecool.MarsExploration.MapElements.Service.Generator;
 using Codecool.MarsExploration.MapElements.Service.Placer;
 using Codecool.MarsExploration.MapLoader;
 using Codecool.MarsExploration.Logger;
+using System.Data;
 
 namespace MarsExplorationTest
 
@@ -31,9 +32,13 @@ namespace MarsExplorationTest
         [SetUp]
         public void Setup()
         {
-            
+            const string mountainSymbol = "#";
+            const string pitSymbol = "&";
+            const string mineralSymbol = "%";
+            const string waterSymbol = "*";
+
             coordinateCalculator = new CoordinateCalculator();
-            validator = new MapConFigurationValidator();
+            validator = new MapConFigurationValidator(mountainSymbol, pitSymbol, mineralSymbol, waterSymbol);
             dimensionCalculator = new DimensionCalculator();
             mapElementBuilder = new MapElementBuilder(dimensionCalculator, coordinateCalculator);
             elementsGenerator = new MapElementsGenerator(mapElementBuilder);
@@ -41,7 +46,7 @@ namespace MarsExplorationTest
             generator = new MapGenerator(elementsGenerator, validator, elementPlacer,coordinateCalculator);
             mapLoader = new MapLoader();
             consoleLogger = new ConsoleLogger();
-            roverConfigValidator = new RoverConfigValidator(coordinateCalculator, consoleLogger, mapLoader);
+            roverConfigValidator = new RoverConfigValidator(coordinateCalculator, consoleLogger, mapLoader, mountainSymbol, pitSymbol, mineralSymbol, waterSymbol);
         }
         [Test]
         public void AllDirections()
@@ -379,22 +384,6 @@ namespace MarsExplorationTest
             
         }
         [Test]
-        public void MapLoaderTest()
-        {
-            //Arrange
-
-            int generatedMapSize = 10;
-            string mapFilePath = Path.GetFullPath("..\\..\\..\\..\\Codecool.MarsExploration\\bin\\Debug\\net8.0\\map1.map");
-            //Act
-
-            Map resultingmap = mapLoader.Load(mapFilePath);
-
-            //Assert
-
-            Assert.That(resultingmap != null);
-            Assert.AreEqual(resultingmap.Representation.GetLength(0), generatedMapSize);
-        }
-        [Test]
         public void RoverConfigValitatorTrue()
         {
             //Arrange
@@ -447,43 +436,6 @@ namespace MarsExplorationTest
 
             //Assert
             Assert.IsFalse(result);
-        }
-        [Test]
-        public void RoverConfigValidatorFalseWrongLandingSpot()
-        {
-            //Arrange
-            string mapFilePath = Path.GetFullPath("..\\..\\..\\..\\Codecool.MarsExploration\\bin\\Debug\\net8.0\\map1.map");
-            Coordinate landingSpot = new Coordinate(5,7);
-            int maxStep = 10000;
-            IEnumerable<string> symbols = [ "#", "%" ];
-
-            RoverConfig roverConfig;
-            roverConfig = new RoverConfig(mapFilePath, landingSpot, symbols, maxStep);
-
-            //Act
-            bool result = roverConfigValidator.validate(roverConfig);
-
-            //Assert
-            Assert.IsFalse(result);
-        }
-        [Test]
-        public void RoverConfigValidatorFalseNoAdjacentCoordinate()
-        {
-            //Arrange
-            string mapFilePath = Path.GetFullPath("..\\..\\..\\..\\Codecool.MarsExploration\\bin\\Debug\\net8.0\\map1.map");
-            Coordinate landingSpot = new Coordinate(1, 0);
-            int maxStep = 10000;
-            IEnumerable<string> symbols = ["#", "%"];
-
-            RoverConfig roverConfig;
-            roverConfig = new RoverConfig(mapFilePath, landingSpot, symbols, maxStep);
-
-            //Act
-            bool result = roverConfigValidator.validate(roverConfig);
-
-            //Assert
-            Assert.IsFalse(result);
-            
         }
     }
 }

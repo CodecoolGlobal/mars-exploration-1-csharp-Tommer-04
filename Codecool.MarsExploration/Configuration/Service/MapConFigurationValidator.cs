@@ -4,6 +4,19 @@ namespace Codecool.MarsExploration.Configuration.Service
 {
     public class MapConFigurationValidator : IMapConfigurationValidator
     {
+        private readonly string _mountainSymbol;
+        private readonly string _pitSymbol;
+        private readonly string _mineralSymbol;
+        private readonly string _waterSymbol;
+
+        public MapConFigurationValidator(string mountainSymbol, string pitSymbol, string mineralSymbol, string waterSymbol) 
+        { 
+            _mountainSymbol = mountainSymbol;
+            _pitSymbol = pitSymbol;
+            _mineralSymbol = mineralSymbol;
+            _waterSymbol = waterSymbol;
+        }
+
         public bool Validate(MapConfiguration configuration)
         {
             if (configuration.MapSize <= 0)
@@ -42,27 +55,21 @@ namespace Codecool.MarsExploration.Configuration.Service
                     return false;
                 }
 
-                switch (elementConfig.Symbol)
+                if(elementConfig.Symbol == _mountainSymbol || elementConfig.Symbol == _pitSymbol)
                 {
-                    case "#":                                            // mountain
-                    case "&":                                            // pit
-                        if (elementConfig.DimensionGrowth <= 0)
-                        {
-                            return false;
-                        }
-                        break;
-
-                    case "%":                                            // mineral
-                    case "*":                                            // water
-                        if (elementConfig.DimensionGrowth != 0)
-                        {
-                            return false;
-                        }
-                        break;
-
-                    default:
+                    if (elementConfig.DimensionGrowth <= 0)
+                    {
                         return false;
-                }
+                    }
+                    break;
+                } else if (elementConfig.Symbol == _mineralSymbol || elementConfig.Symbol == _waterSymbol)
+                {
+                    if (elementConfig.DimensionGrowth != 0)
+                    {
+                        return false;
+                    }
+                    break;
+                } else { return false; }             
             }
 
             
