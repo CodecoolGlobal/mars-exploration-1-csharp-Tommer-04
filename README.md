@@ -69,24 +69,24 @@ cd mars-exploration-1-csharp-Tommer-04
 # Navigate to the application fodler
 
 From the root folder you can navigate to the application using this command:
-\`\`\`bash
+```bash
 cd Coodecool.MarsExploration
-\`\`\`
+```
 
 # How to Build
 To build the project, use the following command in the root directory of the repository:
 
-\`\`\`bash
+```bash
 dotnet build
-\`\`\`
+```
 
 # How to Run
 
 To run the application, use the following command:
 
-\`\`\`bash
+```bash
 dotnet run
-\`\`\`
+```
 
 ## Contributions
 
